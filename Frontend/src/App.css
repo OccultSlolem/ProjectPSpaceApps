@@ -3,6 +3,9 @@ body, #root {
   padding: 0;
   height: 100vh;
   width: 100vw;
+  background-image: url('/apod_background.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 .map-container {
