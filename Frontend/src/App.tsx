@@ -9,6 +9,17 @@ import WMTSTileGrid from 'ol/tilegrid/WMTS';
 import { get as getProjection } from 'ol/proj';
 import { getTopLeft } from 'ol/extent';
 
+interface PlanetaryFeature {
+  id: string;
+  name: string;
+  description: string;
+  latitude: number;
+  longitude: number;
+  diameter_meters: number;
+  source: 'astronaut' | 'usgs' | 'user' | 'other';
+  created_at: string; // ISO date string
+}
+
 export function Home() {
   const mapRef = useRef(null);
 
