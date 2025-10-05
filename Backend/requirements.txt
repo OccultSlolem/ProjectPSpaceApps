@@ -1,0 +1,5 @@
+flask
+waitress
+openai
+dotenv
+pydantic
