@@ -31,11 +31,6 @@ def create_app(test_config=None):
 
     from . import ai
     app.register_blueprint(ai.bp)
-
-    # a simple page that says hello
-    @app.route('/hello')
-    def hello():
-        return 'Hello, World!'
     
     
 

@@ -6,7 +6,7 @@ from pydantic import BaseModel, ValidationError
 
 load_dotenv()
 
-bp = Blueprint('ai', __name__, url_prefix='/ai')
+bp = Blueprint('ai', __name__, url_prefix='/projectp/api/ai')
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 class PlanetaryNavigationAssistantResponse(BaseModel):
