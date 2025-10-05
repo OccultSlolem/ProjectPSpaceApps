@@ -21,13 +21,19 @@ class PlanetaryFeatureDescriptionAssistantResponse(BaseModel):
 @bp.route('/planetary_navigation_assistant', methods=['POST'])
 def planetary_navigation_assistant():
     input = request.json.get('input', '')
-    if not input or input.strip() == "":
+    planet = input.get('planet', '')
+    feature = input.get('feature', '')
+
+    if not input:
         return jsonify({"error": "Input is required"}), 400
     
-    if len(input) > 1000:
+    if not planet or not feature or planet.strip() == "" or feature.strip() == "":
+        return jsonify({"error": "Both planet and feature are required"}), 400
+    
+    if len(feature) > 1000:
         return jsonify({"error": "Input is too long"}), 400
     
-    if len(input) < 3:
+    if len(feature) < 3:
         return jsonify({"error": "Input is too short"}), 400
     
     model="o3-mini"
@@ -39,7 +45,7 @@ def planetary_navigation_assistant():
     try:
         response = client.responses.parse(
             model=model,
-            input=input,
+            input=str(input),
             text_format=PlanetaryNavigationAssistantResponse
         )
         return jsonify(response.output_parsed.model_dump_json()), 200
@@ -53,13 +59,20 @@ def planetary_navigation_assistant():
 @bp.route('/planetary_feature_description_assistant', methods=['POST'])
 def planetary_feature_description_assistant():
     input = request.json.get('input', '')
-    if not input or input.strip() == "":
+    print(f"Received input: {input}")
+    planet = input.get('planet', '')
+    feature = input.get('feature', '')
+
+    if not input:
         return jsonify({"error": "Input is required"}), 400
     
-    if len(input) > 1000:
+    if not planet or not feature or planet.strip() == "" or feature.strip() == "":
+        return jsonify({"error": "Both planet and feature are required"}), 400
+
+    if len(feature) > 1000:
         return jsonify({"error": "Input is too long"}), 400
-    
-    if len(input) < 3:
+
+    if len(feature) < 3:
         return jsonify({"error": "Input is too short"}), 400
     
     model="o3-mini"
@@ -71,7 +84,7 @@ def planetary_feature_description_assistant():
     try:
         response = client.responses.parse(
             model=model,
-            input=input,
+            input=str(input),
             text_format=PlanetaryFeatureDescriptionAssistantResponse
         )
         return jsonify(response.output_parsed.model_dump_json()), 200

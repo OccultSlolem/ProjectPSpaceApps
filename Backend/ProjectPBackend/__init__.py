@@ -1,6 +1,7 @@
 import os
 from dotenv import load_dotenv
 from flask import Flask
+from flask_cors import CORS
 from .rich import rich
 
 load_dotenv()
@@ -15,6 +16,7 @@ def create_app(test_config=None):
     )
 
     rich.init_app(app)
+    CORS(app)
 
     if test_config is None:
         # load the instance config, if it exists, when not testing

@@ -5,3 +5,4 @@ dotenv
 pydantic
 rich
 Flask-Rich
+flask-cors
