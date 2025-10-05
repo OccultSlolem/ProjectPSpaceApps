@@ -3,3 +3,5 @@ waitress
 openai
 dotenv
 pydantic
+rich
+Flask-Rich

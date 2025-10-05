@@ -36,15 +36,13 @@ def planetary_navigation_assistant():
         {"role": "user", "content": input}
     ]
 
-    print(input)
-
     try:
         response = client.responses.parse(
             model=model,
             input=input,
             text_format=PlanetaryNavigationAssistantResponse
         )
-        return jsonify(response.model_dump()), 200
+        return jsonify(response.output_parsed.model_dump_json()), 200
     except ValidationError as e:
         current_app.logger.error(f"Validation error: {e.json()}")
         return jsonify({"error": "Failed to parse response from AI model"}), 500
@@ -70,15 +68,13 @@ def planetary_feature_description_assistant():
         {"role": "user", "content": input}
     ]
 
-    print(input)
-
     try:
         response = client.responses.parse(
             model=model,
             input=input,
             text_format=PlanetaryFeatureDescriptionAssistantResponse
         )
-        return jsonify(response.model_dump()), 200
+        return jsonify(response.output_parsed.model_dump_json()), 200
     except ValidationError as e:
         current_app.logger.error(f"Validation error: {e.json()}")
         return jsonify({"error": "Failed to parse response from AI model"}), 500
