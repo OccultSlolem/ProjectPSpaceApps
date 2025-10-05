@@ -8,6 +8,11 @@ import WMTS from 'ol/source/WMTS';
 import WMTSTileGrid from 'ol/tilegrid/WMTS';
 import { get as getProjection } from 'ol/proj';
 import { getTopLeft } from 'ol/extent';
+import Feature from 'ol/Feature';
+import Point from 'ol/geom/Point';
+import { Icon, Style } from 'ol/style';
+import VectorSource from 'ol/source/Vector';
+import VectorLayer from 'ol/layer/Vector';
 
 interface PlanetaryFeature {
   id: string;
@@ -21,11 +26,13 @@ interface PlanetaryFeature {
 }
 
 export function Home() {
-  const mapRef = useRef(null);
+  const mapHtmlRef = useRef<HTMLDivElement | null>(null);
+  const mapOlRef = useRef<Map | null>(null);
+
+  const knownFeatures: PlanetaryFeature[] = [];
 
   useEffect(() => {
-
-    if (!mapRef.current) {
+    if (!mapHtmlRef.current) {
       return;
     }
 
@@ -68,14 +75,23 @@ export function Home() {
       }),
       wrapX: false,
     });
+    
+    const vectorSource = new VectorSource({
+      features: []
+    });
+
+    const vectorLayer = new VectorLayer({
+      source: vectorSource,
+    });
 
     // 4. Create the map
     const map = new Map({
-      target: mapRef.current,
+      target: mapHtmlRef.current,
       layers: [
         new TileLayer({
           source: wmtsSource,
         }),
+        vectorLayer
       ],
       view: new View({
         projection: projection,
@@ -83,15 +99,83 @@ export function Home() {
     });
 
     map.getView().fit(projectionExtent);
+    mapOlRef.current = map;
 
     return () => {
       map.setTarget(undefined);
+      mapOlRef.current = null;
     };
   }, []);
 
+  useEffect(() => {
+    fetch('/known_lunar_features.json')
+      .then((response) => response.json())
+      .then((data) => {
+        knownFeatures.push(...data);
+        return knownFeatures;
+      })
+      .then((features) => {
+        features.forEach((feature) => {
+          addFeatureMarker(feature);
+        });
+      })
+      .catch((error) => {
+        console.error('Error fetching planetary features:', error);
+      });
+
+  }, []);
+
+  useEffect(() => {
+    if (knownFeatures.length === 0) {
+      console.warn('0');
+      return;
+    };
+    if (!mapOlRef.current) {
+      console.warn('lol no map');
+      return;
+    };
+    
+    knownFeatures.forEach((feature) => {
+      addFeatureMarker(feature);
+    });
+  }, [knownFeatures]);
+
+  function addFeatureMarker(feature: PlanetaryFeature) {
+    if (!mapOlRef.current) {
+      console.warn('lol no map');
+      return;
+    };
+    const featurePoint = new Feature({
+      geometry: new Point([feature.longitude, feature.latitude]),
+      name: feature.name,
+      description: feature.description,
+    });
+
+    const featureStyle = new Style({
+      image: new Icon({
+        anchor: [0.5, 46],
+        anchorXUnits: 'fraction',
+        anchorYUnits: 'pixels',
+        src: '/icon.png',
+      })
+    });
+
+    featurePoint.setStyle(featureStyle);
+
+    const vectorSource = new VectorSource({
+      features: [featurePoint]
+    });
+
+    const vectorLayer = new VectorLayer({
+      source: vectorSource,
+    });
+
+    mapOlRef.current.addLayer(vectorLayer);
+  }
+
   return (
     <div
-      ref={mapRef}
+      ref={mapHtmlRef}
       style={{ height: '100vh', width: '100%', position: 'relative' }}
     />
   )
