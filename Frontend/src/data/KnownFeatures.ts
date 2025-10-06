@@ -309,6 +309,109 @@ export const KnownVestaFeatures: IPlanetaryFeature[] = [
   }
 ];
 
+export const KnownCeresFeatures: IPlanetaryFeature[] = [
+  {
+    "id": "102",
+    "name": "Occator",
+    "planet": "Ceres",
+    "description": "A prominent crater famous for housing the brightest spots on Ceres, known as Cerealia Facula and Vinalia Faculae.",
+    "latitude": 19.86,
+    "longitude": 239.69,
+    "diameter_meters": 92000,
+    "source": "other"
+  },
+  {
+    "id": "103",
+    "name": "Cerealia Facula",
+    "planet": "Ceres",
+    "description": "The extremely bright central spot within Occator crater, thought to be composed of salt carbonates.",
+    "latitude": 19.8,
+    "longitude": 239.4,
+    "diameter_meters": 15000,
+    "source": "other"
+  },
+  {
+    "id": "104",
+    "name": "Ahuna Mons",
+    "planet": "Ceres",
+    "description": "A large, isolated cryovolcano, a mountain formed from the eruption of subsurface ice and brine.",
+    "latitude": -10.48,
+    "longitude": 316.2,
+    "diameter_meters": 20000,
+    "source": "other"
+  },
+  {
+    "id": "105",
+    "name": "Kerwan",
+    "planet": "Ceres",
+    "description": "The largest confirmed impact crater on Ceres, though it is very shallow and old, lacking a central peak.",
+    "latitude": -10.79,
+    "longitude": 123.95,
+    "diameter_meters": 284000,
+    "source": "other"
+  },
+  {
+    "id": "106",
+    "name": "Yalode",
+    "planet": "Ceres",
+    "description": "A large and complex crater, the second-largest on Ceres, named after an African goddess of harvests.",
+    "latitude": -42.7,
+    "longitude": 292.59,
+    "diameter_meters": 260000,
+    "source": "other"
+  },
+  {
+    "id": "107",
+    "name": "Urvara",
+    "planet": "Ceres",
+    "description": "A large crater with a prominent central peak and terraced walls, named after an Indian-Iranian fertility deity.",
+    "latitude": -46.06,
+    "longitude": 249.2,
+    "diameter_meters": 170000,
+    "source": "other"
+  },
+  {
+    "id": "108",
+    "name": "Dantu",
+    "planet": "Ceres",
+    "description": "A large crater known for its intricate network of fractures on its floor.",
+    "latitude": 24.1,
+    "longitude": 138.2,
+    "diameter_meters": 126000,
+    "source": "other"
+  },
+  {
+    "id": "109",
+    "name": "Haulani",
+    "planet": "Ceres",
+    "description": "A relatively young, bright crater with a distinct polygonal (hexagonal) shape and ray system.",
+    "latitude": 5.8,
+    "longitude": 10.8,
+    "diameter_meters": 34000,
+    "source": "other"
+  },
+  {
+    "id": "110",
+    "name": "Kupalo",
+    "planet": "Ceres",
+    "description": "One of the youngest craters on Ceres, featuring a bright rim and ejecta blanket.",
+    "latitude": -39.57,
+    "longitude": 173.0,
+    "diameter_meters": 26000,
+    "source": "other"
+  },
+  {
+    "id": "111",
+    "name": "Ezinu",
+    "planet": "Ceres",
+    "description": "A crater named after the Sumerian goddess of grain, notable for its central pit.",
+    "latitude": 3.5,
+    "longitude": 197.8,
+    "diameter_meters": 116000,
+    "source": "other"
+  }
+];
+
 export const KnownMercuryFeatures: IPlanetaryFeature[] = [
   {
     "id": "16",
