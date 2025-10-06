@@ -1,7 +1,9 @@
+import './App.css'
 import { createContext, useState } from "react";
 import { Map } from "ol";
 import { FeatureVectorLayer } from "./components/FeatureVectorLayer";
 import type { Planet } from "./types/DataTypes";
+import NavigationPanel from "./components/NavigationPanel";
 
 interface IHomeProps {
   planet: Planet;
@@ -27,6 +29,7 @@ export function Home ({ planet }: IHomeProps) {
 
     <MapContext.Provider value={{ map, setMap }}>
       <FeatureVectorLayer planet={planet} />
+      <NavigationPanel />
     </MapContext.Provider>
   )
 }

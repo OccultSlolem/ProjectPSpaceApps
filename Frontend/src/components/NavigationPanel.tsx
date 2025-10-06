@@ -1,8 +1,9 @@
-import { useRef, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import { queryPlanetaryNavigationAssistant } from "../AIHelper";
-import type { Map } from "ol";
+import { MapContext } from "../App";
 
-export default function NavigationPanel({ map }: { map: Map | null }) {
+export default function NavigationPanel() {
+  const { map } = useContext(MapContext);
   const dialogRef = useRef<HTMLDialogElement | null>(null);
   const inputRef = useRef<HTMLTextAreaElement | null>(null);
   const [loading, setLoading] = useState(false);
@@ -65,7 +66,7 @@ export default function NavigationPanel({ map }: { map: Map | null }) {
       <div className="panel">
         <h1>Project P - Lunar Map</h1>
         <p>This is a map of the Moon using NASA's LRO WAC Mosaic.</p>
-        <button onClick={() => dialogRef.current?.showModal()}>Navigation Assistant 🪐</button>
+        <button className="modern-button" onClick={() => dialogRef.current?.showModal()}>Navigation Assistant 🪐</button>
         {/* <button onClick={testFetchA}>Test Fetch (Feature)</button>
         <button onClick={testFetchB}>Test Fetch (Navigation)</button> */}
         {loading && <p>Loading...</p>}
@@ -73,17 +74,18 @@ export default function NavigationPanel({ map }: { map: Map | null }) {
           <>
             <hr />
             <p>{navigationTextResponse}</p>
-            <button onClick={() => setNavigationTextResponse(null)}>Clear</button>
-          </>}
+            <button className="modern-button" onClick={() => setNavigationTextResponse(null)}>Clear</button>
+          </>
+        }
       </div>
 
       <dialog ref={dialogRef} id="panelDialog">
         <h2 id="featureName">Planetary Navigation Assisant 🪐</h2>
         <p id="featureDescription">Tell me where you want to go, and I'll take you there!</p>
         <textarea ref={inputRef} id="navFeatureTextArea" placeholder="Enter feature name" />
-        <button style={{ marginLeft: '10px' }} onClick={submitNavigationQuery}>Submit</button>
+        <button className="modern-button" style={{ marginLeft: '10px' }} onClick={submitNavigationQuery}>Submit</button>
         <hr />
-        <button onClick={() => {
+        <button className="modern-button" onClick={() => {
           const dialog = dialogRef.current;
           dialog?.close();
         }}>Close</button>
