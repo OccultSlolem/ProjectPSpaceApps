@@ -10,7 +10,7 @@ import TileLayer from "ol/layer/Tile";
 import WMTSTileGrid from 'ol/tilegrid/WMTS';
 import { get as getProjection } from 'ol/proj';
 import type { Planet } from "../types/DataTypes";
-import { MapContext } from "../App";
+import { MapContext } from "../main.tsx";
 
 interface IWmtsMapProps {
   planet: Planet;
@@ -88,6 +88,8 @@ export function WmtsMap({ planet, children }: IWmtsMapProps) {
 
       view: new View({
         projection: projection,
+        center: [0,0],
+        zoom: 2
       }),
     });
 

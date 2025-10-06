@@ -7,7 +7,7 @@ import { Point } from 'ol/geom';
 import { Icon, Style } from 'ol/style';
 import VectorLayer from 'ol/layer/Vector';
 import VectorSource from 'ol/source/Vector';
-import { MapContext } from '../App';
+import { MapContext } from '../main.tsx';
 
 
 interface IFeatureVectorLayerProps {
@@ -19,6 +19,7 @@ export function FeatureVectorLayer({ planet }: IFeatureVectorLayerProps) {
     const { featuresByPlanet } = useFeatures(); //Initiate feature context
 
     useEffect(() => {
+        console.log('running on effect')
         const featuresForPlanet = featuresByPlanet.get(planet);
 
         if (!featuresForPlanet) {
@@ -27,16 +28,19 @@ export function FeatureVectorLayer({ planet }: IFeatureVectorLayerProps) {
         }
 
         if (!map) {
-            console.error('No map instance found in FeatureVectorLayer');
+            console.warn("No map instance found yet");
             return;
-        }
+        } 
+
+        console.log(`${planet} map has loaded`);
 
         const featureStyle = new Style({
             image: new Icon({
-                anchor: [0.5, 46],
+                anchor: [0.5, 1],
                 anchorXUnits: 'fraction',
-                anchorYUnits: 'pixels',
-                src: '/icon.png', 
+                anchorYUnits: 'fraction',
+                src: '/nasa.svg', 
+                scale: 1
             })
         })
 
@@ -46,6 +50,7 @@ export function FeatureVectorLayer({ planet }: IFeatureVectorLayerProps) {
                 geometry: new Point([featureData.longitude, featureData.latitude]),
                 name: featureData.name,
                 description: featureData.description,
+                diameter_meters: featureData.diameter_meters
             });
 
             featurePoint.setStyle(featureStyle);
@@ -60,7 +65,7 @@ export function FeatureVectorLayer({ planet }: IFeatureVectorLayerProps) {
             map.removeLayer(vectorLayer); //Run when component unmounts
         }
 
-    }, [map, planet, featuresByPlanet]);
+    }, [map]);
 
     //just manages map layers, does not render html
     return null;

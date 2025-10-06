@@ -1,6 +1,6 @@
 import { useContext, useRef, useState } from "react";
 import { queryPlanetaryNavigationAssistant } from "../AIHelper";
-import { MapContext } from "../App";
+import { MapContext } from "../main.tsx";
 
 export default function NavigationPanel() {
   const { map } = useContext(MapContext);

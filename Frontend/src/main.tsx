@@ -1,29 +1,44 @@
 import './index.css'
-import { StrictMode } from 'react'
+import { StrictMode, useState } from 'react'
 import { createRoot } from 'react-dom/client'
 
+
+import { createContext,  } from "react";
+import { Map } from "ol";
+import type { Planet } from "./types/DataTypes";
 import { Home } from './App.tsx'
-import { WmtsMap } from './components/WmtsMap.tsx'
-import { FeatureProvider } from './context/FeatureContext.tsx'
-import type { Planet } from './types/DataTypes.ts'
+
+
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <App />
+    <Main />
   </StrictMode>,
 )
 
-function App() {
-  const selectedPlanet: Planet = 'Mercury';
+export interface IHomeProps {
+  planet: Planet;
+}
 
+export interface IMapContext {
+  map: Map | null;
+  setMap: (map: Map) => void;
+}
+
+export const MapContext = createContext<IMapContext>({
+  map: null,
+  setMap: () => {}
+})
+
+function Main() {
+  const selectedPlanet: Planet = 'Moon'; //Default planet on load
+  const [map, setMap] = useState<Map | null>(null);
 
   return (
-    <FeatureProvider>
+    <MapContext.Provider value={{ map, setMap }}>
       <div style={{ height: '100vh', width: '100%' }}>
-        <WmtsMap planet={selectedPlanet}>
-          <Home planet={selectedPlanet} />
-        </WmtsMap>
+       <Home planet={selectedPlanet} />
       </div>
-    </FeatureProvider>
+    </MapContext.Provider>
   )
 }
