@@ -14,9 +14,10 @@ class PlanetaryNavigationAssistantResponse(BaseModel):
     latitude: float
     longitude: float
     text_response: str
+    zoom_level: int
 
 class PlanetaryFeatureDescriptionAssistantResponse(BaseModel):
-    description: str
+    response: str
 
 @bp.route('/planetary_navigation_assistant', methods=['POST'])
 def planetary_navigation_assistant():
@@ -77,7 +78,7 @@ def planetary_feature_description_assistant():
     
     model="o3-mini"
     input = [
-        {"role": "system", "content": "The user will provide the name of a planetary feature. You will respond with a ~100 word detailed description of that feature."},
+        {"role": "system", "content": os.getenv("PLANETARY_DESCRIPTION_ASSISTANT_PROMPT")},
         {"role": "user", "content": input}
     ]
 

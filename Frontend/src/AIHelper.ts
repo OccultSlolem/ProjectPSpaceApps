@@ -17,6 +17,7 @@ interface PlanetaryNavigationResponse extends APIResponse {
     foundFeature: boolean;
     latitude: number;
     longitude: number;
+    zoomLevel: number;
     textResponse: string;
   }
 }
@@ -33,25 +34,37 @@ export async function queryPlanetaryNavigationAssistant(input: PlanetaryNavigati
   if (input.feature.length > 1000) return { localError: 'inputTooLong' }
 
   console.log('fetching', apiRoute, input);
-  const response = await fetch(apiRoute, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({ input })
-  });
+  let response: Response;
+  try {
+    response = await fetch(apiRoute, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ input })
+    });
+  } catch (error) {
+    return { networkError: `Network error: ${error}` };
+  }
 
   if (!response.ok) {
     return { networkError: `Network error: ${response.status} ${response.statusText}` };
   }
 
   const data = JSON.parse(await response.json());
-  return { response: { foundFeature: data.found_feature, latitude: data.latitude, longitude: data.longitude, textResponse: data.text_response } };
+  return { response: { 
+    foundFeature: data.found_feature, 
+    latitude: data.latitude, 
+    longitude: data.longitude, 
+    zoomLevel: data.zoom_level,
+    textResponse: data.text_response 
+  } };
 }
 
 interface PlanetaryFeatureDescriptionQuery {
-  planet: 'moon' | 'ganymede';
+  planet: string;
   feature: string;
+  query: string;
 }
 
 interface PlanetaryFeatureDescriptionResponse extends APIResponse {
@@ -70,6 +83,9 @@ export async function queryPlanetaryFeatureDescription(input: PlanetaryFeatureDe
   
   if (input.feature.length < 1) return { localError: 'inputTooShort' }
   if (input.feature.length > 100) return { localError: 'inputTooLong' }
+
+  if (input.query && input.query.length > 1000) return { localError: 'inputTooLong' }
+  if (input.query && input.query.length < 3) return { localError: 'inputTooShort' }
 
   console.log('fetching', apiRoute, input);
   const response = await fetch(apiRoute, {

@@ -53,7 +53,7 @@ export default function NavigationPanel() {
 
     map.getView().animate({
       center: [response.response.longitude, response.response.latitude],
-      zoom: 6,
+      zoom: response.response.zoomLevel || 8,
       duration: 2000,
     });
     setNavigationTextResponse(response.response.textResponse);
@@ -64,11 +64,9 @@ export default function NavigationPanel() {
   return (
     <>
       <div className="panel">
-        <h1>Project P - Lunar Map</h1>
-        <p>This is a map of the Moon using NASA's LRO WAC Mosaic.</p>
+        <h1>Project P Planetary Explorer</h1>
+        <p>Explore the wonders of the solar system! Feel free to ask Perry, our AI assistant, for help.</p>
         <button className="modern-button" onClick={() => dialogRef.current?.showModal()}>Navigation Assistant 🪐</button>
-        {/* <button onClick={testFetchA}>Test Fetch (Feature)</button>
-        <button onClick={testFetchB}>Test Fetch (Navigation)</button> */}
         {loading && <p>Loading...</p>}
         {navigationTextResponse && 
           <>
