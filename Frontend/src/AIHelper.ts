@@ -8,8 +8,8 @@ interface APIResponse {
   networkError?: string;
 }
 
-const isDev = import.meta.env.DEV;
-const urlBase = isDev ? 'http://127.0.0.1:5100/projectp/api/' : 'https://efh.moe/projectp/api/';
+const isDev = import.meta.env.DEv;
+const urlBase = isDev ? 'http://127.0.0.1:5100/projectp/api/' : 'https://projectp-backend.efh.moe/projectp/api/';
 
 interface PlanetaryNavigationResponse extends APIResponse {
   
